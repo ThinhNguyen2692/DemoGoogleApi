@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "6nsV8ZBYqd36RkCvSDhxHtn3Ab/dOenTXF3EIZ/fT7E=",
+  "Source": "WebAppChat",
+  "BasePath": "_content/WebAppChat",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
