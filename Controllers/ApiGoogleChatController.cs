@@ -26,7 +26,7 @@ namespace WebAppChat.Controllers
 
             var googleChatApiClient = new GoogleChatApiClient();
             var chatWebhookUrl = "https://chat.googleapis.com/v1/spaces/hj4OQkAAAAE/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=gTJPxRzdctKBh7A7qPigC5mMEYMOGY928k4zo2cPK5w";
-            var message = "Sinh năm 2000 có phải tuổi con GÀ không nhỉ?";
+            var message = "Anh Mịnh sinh năm bao nhiêu?";
 
             await googleChatApiClient.SendMessage(chatWebhookUrl, message);
 
@@ -40,7 +40,7 @@ namespace WebAppChat.Controllers
         {
 
             string serviceAccountKeyPath = "C:\\Users\\thinh.nguyenngoc\\Desktop\\adminapi.json"; // Đường dẫn đến tệp tin JSON chứa thông tin xác thực
-
+            //domain email
             string domain = "vnresource.biz";
 
             // Phạm vi API
@@ -48,29 +48,23 @@ namespace WebAppChat.Controllers
                  DirectoryService.Scope.AdminDirectoryUserReadonly,
                  DirectoryService.Scope.AdminDirectoryUser,
                };
-
             try
             {
                 // Tạo xác thực dịch vụ từ tệp tin JSON chứa thông tin xác thực
                 var credential = GoogleCredential.FromFile(serviceAccountKeyPath);
-
                 // Check if creating a new scope is required
                 if (credential.IsCreateScopedRequired)
                 {
-                  credential = credential.CreateScoped(scopes).CreateWithUser("admin@vnresource.biz");
-                 
-                }
+                  credential = credential.CreateScoped(scopes).CreateWithUser("admin@vnresource.biz"); // email admin
 
+                }
                 // Tạo đối tượng dịch vụ Directory
                 var service = new DirectoryService(new BaseClientService.Initializer()
                 {
                     HttpClientInitializer = credential,
                     ApplicationName = "ChatDemo"
                 });
-
-
                 // Lấy danh sách người dùng
-               
                 UsersResource.ListRequest request = service.Users.List();
                 request.Domain = domain;
                 try
@@ -88,27 +82,19 @@ namespace WebAppChat.Controllers
                     {
                         Console.WriteLine("Không có người dùng nào.");
                     }
+                    return Ok(users);
                 }
                 catch (GoogleApiException ex)
                 {
                     Console.WriteLine($"Lỗi: {ex.Message}");
                     throw;
-                }
-                
+                } 
             }
-
-
-
             catch (Exception ex)
             {
                 Console.WriteLine($"Lỗi: {ex.Message}");
             }
-
             return Ok();
-
         }
-
-
-
     }
 }
