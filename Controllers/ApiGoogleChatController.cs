@@ -33,13 +33,50 @@ namespace WebAppChat.Controllers
             return Ok();
 
         }
+        [Route("ImageChangeToString")]
+        [HttpPost]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> Tesseract(IFormFile file)
+        {
+            try
+            {
+                
+                var googleChatApiClient = new GoogleChatApiClient();
+                await googleChatApiClient.Tesseract(file);
+                // Trả về tệp văn bản đã tạo
+                return PhysicalFile("D:\\example.txt", "text/plain", "file.txt");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+
+        [Route("ImageToString")]
+        [HttpPost]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> ImageChangeToString(IFormFile file)
+        {
+            try
+            {
+
+                var googleChatApiClient = new GoogleChatApiClient();
+                await googleChatApiClient.Tesseract(file, false);
+                // Trả về tệp văn bản đã tạo
+                return PhysicalFile("D:\\example.txt", "text/plain", "file.txt");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
 
         [Route("GetUsers")]
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
 
-            string serviceAccountKeyPath = "C:\\Users\\thinh.nguyenngoc\\Desktop\\adminapi.json"; // Đường dẫn đến tệp tin JSON chứa thông tin xác thực
+            string serviceAccountKeyPath = "C:\\Users\\thinh.nguyenngoc\\Desktop\\adminapi.json"; //Đường dẫn đến tệp tin JSON chứa thông tin xác thực
             //domain email
             string domain = "vnresource.biz";
 
